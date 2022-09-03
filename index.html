@@ -7,124 +7,16 @@
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 97vw;
-            height: 97vh;
-            background-image: linear-gradient(45deg, rgb(0, 188, 170), rgb(128, 0, 188));
-        }
-        .vending-machine {
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            width: 600px;
-            height: 530px;
-            background-color: red;
-            border: 4px solid rgb(37, 37, 37);
-            border-style: solid none none solid;
-            border-radius: 2em 2em .5em .5em;
-            box-shadow: 30px 0px rgb(146, 0, 0), -30px 20px rgb(78, 78, 78);
-        }
-        .vending-machine > .reflex-top-left, 
-        .vending-machine > .reflex-top-right,
-        .reflex-side {
-            display: block;
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border-radius: 2em;
-            border: 5px solid aliceblue;
-            border-style: solid none none none;
-        }
-        .vending-machine > .reflex-top-left {
-            top: 10px;
-            left: 10px;
-            right: auto;
-            transform: rotate(-45deg);
-        }
-        .vending-machine > .reflex-top-right {
-            top: 10px;
-            right: 10px;
-            transform: rotate(45deg);
-        }
-        .reflex-side {
-            top: 33px;
-            right: 8.5px;
-            width: 3px;
-            height: 300px;
-            border-radius: 30px;
-            border: none;
-            background-color: aliceblue;
-        }
-        .reflex-side:nth-child(2) {
-            height: 30px;
-            top: auto;
-            bottom: 30px;
-        }
-        .vending-machine > .window {
-            display: grid;
-            box-sizing: content-box;
-            padding: .5em;
-            gap: 10px;
-            grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-            grid-template-rows: repeat(auto-fit, minmax(70px, 1fr));
-            width: 90%;
-            max-width: 90%;
-            height: 60%;
-            max-height: 60%;
-            background-color: aliceblue;
-            border-radius: 2em;
-            border: 7px inset rgb(78, 78, 78);
-            margin-top: 5%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .vending-machine > .window > .item {
-            display: grid;
-            place-items: center;
-            resize: none;
-            border: 2px solid black;
-            background-image: linear-gradient(to right, #0003, #0000);
-            border-radius: .5em;
-        }
-        
-        .vending-machine > .open-container {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: auto;
-            margin-bottom: 2%;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-            font-family: sans-serif, monospace;
-            font-size: 30px;
-            width: 90%;
-            height: 10%;
-            color:rgb(78, 78, 78);
-            border: 5px inset rgb(78, 78, 78);
-            border-radius: 0 0 .7em .7em;
-            background-image: linear-gradient(rgb(156, 156, 156), rgb(121, 121, 121));
-        }
-        .vending-machine > .pay-receiver {
-            display: block;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            margin-right: 20px;
-            width: 50px;
-            height: auto;
-            background-color: rgb(43, 43, 43);
-            border-radius: 5px;
-            border: none;
-        }
-    </style>
+    <link type="text/css" rel="stylesheet" href="index.css">
     <script type="module" src = "index.js"></script>
 
 </head>
 <body>
+    <div class="payment-modal">
+        <div class="coin">1$</div>
+        <div class="coin">100$</div>
+        <div class="hbar"></div>
+    </div>
     <div class="vending-machine">
         <div class="reflex-top-left"></div>
         <div class="reflex-top-right"></div>
@@ -149,9 +41,13 @@
             <div class="item"></div>
             <div class="item"></div>
             <div class="item"></div>
-            
         </div>
-        <div class="pay-receiver"></div>
+        <div class="pay-receiver">
+            <div class="receiver"></div>
+            <div class="receiver"></div>
+            <div></div>
+            <div></div>
+        </div>
         <div class="open-container">OPEN</div>
     </div>
 </body>

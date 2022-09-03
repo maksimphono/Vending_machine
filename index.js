@@ -5,6 +5,7 @@ let coins = {};
 $(document).ready(() => {
     coins = {"PENNY" : .01, "NICEL" : .05 ,"DIME" : .1, "QUARTER" : .25, "ONE" : 1, "FIVE" : 5,"TEN" : 10,"TWENTY" : 20, "ONE HUNDRED" : 100};
     
+    let selectedItem = null;
     const user = {  
         init : function(coinsReference) {
             this.money = 100;
@@ -37,17 +38,24 @@ $(document).ready(() => {
             console.table("Coins: ", this.coins);
             console.table("Items: ", this.items);
         },
-        selectCoinsToPay : function() {
+        selectCoinsToPay : function(item) {
+            if (!item) return undefined;
             let cash = {};
+            
+            $(".payment-modal").css("display", "flex");
         }
     };
     
     user.init(coins);
-    user.buy = user.buy;
     
     console.log("User: ");
     console.table(user);
     $(".vending-machine .item").click(function () {
-        user.buy(this, {"PENNY" : 0, "NICEL" : 0 ,"DIME" : 0, "QUARTER" : 0, "ONE" : 0, "FIVE" : 0,"TEN" : 0,"TWENTY" : 0, "ONE HUNDRED" : 1});
+        selectedItem = this;
+        //user.buy(this, {"PENNY" : 0, "NICEL" : 0 ,"DIME" : 0, "QUARTER" : 0, "ONE" : 0, "FIVE" : 0,"TEN" : 0,"TWENTY" : 0, "ONE HUNDRED" : 1});
+    });
+    // complete ! 
+    $(".vending-machine .pay-receiver").click(function () {
+        user.selectCoinsToPay(selectedItem);
     });
 });
