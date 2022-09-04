@@ -181,19 +181,32 @@ body {
     z-index: 2;
 }
 .payment-modal {
+    --height: 80vh;
+    --width: 80vw;
     display: none;
-    justify-content: center;
+    /*justify-content: flex-end;
     align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;*/
+    padding: none;
     position: absolute;
     top: 10%;
     bottom: auto;
     left: 10%;
     right: auto;
-    height: 80vh;
-    width: 80vw;
+    height: var(--height);
+    width: var(--width);
     background-image: linear-gradient(rgb(226, 226, 226), rgb(185, 185, 185));
     border-radius: 2em;
     z-index: 1;
+}
+.payment-modal > .grid {
+    display: grid;
+    margin-left: 6%;
+    gap: calc(var(--width) / 95);
+    grid-template-columns: repeat(3, calc(var(--height) / 3.5));
+    grid-template-rows: repeat(3, calc(var(--height) / 3.5));
+    overflow: visible;
 }
 .payment-modal::after {
     content: "";
@@ -203,18 +216,31 @@ body {
     width: .5vw;
     background-color: #000;
 }
+.coin-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Swansea';
+    font-size: 3vh;
+    
+}
 .coin {
+    --size: calc(var(--height) / 4);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px;
-    width: 100px;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+    height: var(--size);
+    width: var(--size);
     border-radius: 50%;
-    margin: 1%;
-    border: 10px solid rgb(243, 211, 0);
+    margin: none; /*calc(var(--size) / 50);*/
+    border: 2vh solid rgb(243, 211, 0);
     background-color: rgb(201, 174, 0); 
-    box-shadow: 0 10px rgb(201, 174, 0);
+    box-shadow: 0 2vh rgb(201, 174, 0);
     transform: rotateX(45deg);
-    font-family: 'Swansea';
-    font-size: 160%;
+    cursor: pointer;
+
 }
