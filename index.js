@@ -67,18 +67,29 @@ $(document).ready(() => {
             let cash = {};
             let htmlCoins = [];
             let newCoinItem = '';
+            let i = 1;
             
             $(".payment-modal").css("display", "flex");
             for (let coin in coins) {
                 if (this.coins[coin]) {
-                    newCoinItem = $("<div class='coin-wrapper'><div class='coin'>" + coin + "<br>" + coins[coin] + "$</div>" + this.coins[coin] + "</div>");
+                    newCoinItem = $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +")");
+                    $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +") > p").text(this.coins[coin]);
                     //newCoinJQItem.click(stackCoins(coin));
+                    $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +") > .coin").text(coin + ' ' + coins[coin] + "$");
                     newCoinItem.click(payment.addCoin(coin));
-                    $(".payment-modal > .grid").append(newCoinItem);    
+                    $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +") > .coin").css("opacity", "1");
+                    //$(".payment-modal > .grid").append(newCoinItem);    
                 } else {
-                    newCoinItem = $("<div class='coin-wrapper'><div class='coin' style='opacity: 0.6;'>" + coin + "<br>" + coins[coin] + "$</div>" + this.coins[coin] + "</div>");
-                    $(".payment-modal > .grid").append(newCoinItem);
+                    //newCoinItem = $("<div class='coin-wrapper'><div class='coin' style='opacity: 0.6;'>" + coin + "<br>" + coins[coin] + "$</div>" + this.coins[coin] + "</div>");
+                    //$(".payment-modal > .grid").append(newCoinItem);
+                    newCoinItem = $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +")");
+                    $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +") > p").text(this.coins[coin]);
+                    //newCoinJQItem.click(stackCoins(coin));
+                    $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +") > .coin").text(coin + ' ' + coins[coin] + "$");
+                    newCoinItem.click(() => undefined);
+                    $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +") > .coin").css("opacity", "0.6");
                 }
+                i++;
                 
             }
         }
