@@ -223,11 +223,14 @@ body {
     align-items: center;
     font-family: 'Swansea';
     font-size: 3vh;
-    
+    margin-top: 10%;
+    height: max-content;
 }
 .coin-wrapper > p {
     display: flex;
     align-items: center;
+    padding: none;
+    margin: -10%;
     height: 1em;
 }
 .coin {
@@ -245,7 +248,7 @@ body {
     border: 2vh solid rgb(243, 211, 0);
     background-color: rgb(201, 174, 0); 
     box-shadow: 0 2vh rgb(201, 174, 0);
-    /*transform: rotateX(45deg);*/
+    transform: rotateX(45deg);
     cursor: pointer;
 
 }
