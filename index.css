@@ -233,6 +233,15 @@ body {
     margin: -10%;
     height: 1em;
 }
+.coin-stack {
+    display: flex;
+    background-color: red;
+    position: relative;
+    justify-content: center;
+    font-display: column;
+    width: calc(var(--width) / 2);
+    height: var(--height);
+}
 .coin {
     --size: calc(var(--height) / 4);
     display: flex;

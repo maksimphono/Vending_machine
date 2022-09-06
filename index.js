@@ -60,6 +60,7 @@ $(document).ready(() => {
                 this.coins[coinKey] = 0;
             }
             this.sum = 0;
+            this.coinNumber = 0;
         },
         addCoin : function (coinKey) {
             return function () {
@@ -67,26 +68,40 @@ $(document).ready(() => {
                 
                 console.log("addCoin func");
                 payment.sum += coins[coinKey];
+                payment.coinNumber++;
                 console.log("Payment sum:", payment.sum);
                 console.log("Item price:", selectedItem.dataset.price);
                 user.coins[coinKey]--;
                 $(this).find("p").text(user.coins[coinKey]);
                 if (!user.coins[coinKey]) $(this).find(".coin").css("opacity", "0.6");
                 payment.coins[coinKey]++;
+                payment.stackCoins(coinKey);
                 if (payment.sum >= selectedItem.dataset.price) {
                     console.log("Sum > price");
                     user.buy(selectedItem, payment.coins);
                     selectedItem = null;
                     payment.reset();
                     console.log("Sum after buying:", payment.sum);
-                    setTimeout(() => $(".payment-modal").hide(), 2000);
+                    setTimeout(() => {
+                        $(".payment-modal").hide(); 
+                        $(".payment-modal > .coin-stack").empty();
+                    }, 2000);
                     //$(".payment-modal").hide();
-                    return;
                 }
-                //payment.stackCoins(coinKey);    
             };
         },
         stackCoins : function (coinKey) {
+            let newCoinObject = $("<div class='coin-wrapper' style='outline:blue;z-index: 5;'><div class='coin'>" + "</div></div>");
+            let coinHeight = $(".coin").outerHeight();
+
+            newCoinObject.css({
+                "position" : "absolute",
+                "top" : "1%"
+            });
+            newCoinObject.animate({
+                "top" : (50 - this.coinNumber * 4) + "%",
+            }, 2000);
+            $(".payment-modal > .coin-stack").append(newCoinObject);
             return;
         }
     };
