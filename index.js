@@ -8,26 +8,6 @@ $(document).ready(() => {
     let selectedItem = null;
     let coinsStackHeight = 0;
     let sumToPay = 0;
-    
-    /*
-    function stackCoins(coinKey) {
-        return function () {
-            let droppedCoin = $(this).clone();
-
-            console.log(droppedCoin);
-            user.coins[coinKey] -= 1;
-            console.log($($($(this).children()[0]).children()[0]));
-            sumToPay += coins[coinKey];
-            $(droppedCoin).css({
-                "position" : "absolution",
-                "top" : "50px",
-                "left" : "500px"
-            });
-
-            if (!user.coins[coinKey]) this.style.opacity = "0.6";
-        }
-    }
-    */
     const user = {  
         init : function(coinsReference) {
             this.money = 100;
@@ -36,7 +16,6 @@ $(document).ready(() => {
             this.coins[Object.keys(this.coins).at(-1)] = 1; // add a biggest coin to the user's pocket
 
             this.items = {};
-            console.table(this.coins);
         },
         buy : function(item, cash) {
             let change = {};
@@ -45,48 +24,28 @@ $(document).ready(() => {
     
             if (![itemName, itemPrice].every(a => !!a)) return undefined;
             
-            console.log("Buy");
-            console.table("Cash: ", cash);
             change = changeCashRegister(Number(itemPrice), cash, coins);
-            console.log("Change:", change);
             if (!change) return undefined;
 
-            //for (let coin in this.coins) {
-                //this.coins[coin] -= cash[coin] || 0;
-            //}
             for (let [coinName, coinNum] of change) {
                 this.coins[coinName] += coinNum;
             }
             
             this.items[itemName] = this.items[itemName] + 1 || 1;
-            console.table("User Coins: ", this.coins);
-            console.table("User Items: ", this.items);
         },
         selectCoinsToPay : function(item) {
-            if (!item) return undefined;
-            let cash = {};
-            let htmlCoins = [];
-            let newCoinItem = '';
+            if (!item) return undefined; 
             let i = 1;
             
             $(".payment-modal").css("display", "flex");
             for (let coin in coins) {
+                $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +") > p").text(this.coins[coin]);
+                $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +") > .coin").text(coin + ' ' + coins[coin] + "$").css("opacity", "1");
+                $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +")").unbind();
                 if (this.coins[coin]) {
-                    newCoinItem = $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +")");
-                    $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +") > p").text(this.coins[coin]);
-                    //newCoinJQItem.click(stackCoins(coin));
-                    $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +") > .coin").text(coin + ' ' + coins[coin] + "$");
-                    newCoinItem.click(payment.addCoin(coin));
-                    $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +") > .coin").css("opacity", "1");
-                    //$(".payment-modal > .grid").append(newCoinItem);    
+                    $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +")").click(payment.addCoin(coin));
                 } else {
-                    //newCoinItem = $("<div class='coin-wrapper'><div class='coin' style='opacity: 0.6;'>" + coin + "<br>" + coins[coin] + "$</div>" + this.coins[coin] + "</div>");
-                    //$(".payment-modal > .grid").append(newCoinItem);
-                    newCoinItem = $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +")");
-                    $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +") > p").text(this.coins[coin]);
-                    //newCoinJQItem.click(stackCoins(coin));
-                    $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +") > .coin").text(coin + ' ' + coins[coin] + "$");
-                    newCoinItem.click(() => undefined);
+                    
                     $(".payment-modal > .grid > .coin-wrapper:nth-child("+ i +") > .coin").css("opacity", "0.6");
                 }
                 i++;
@@ -100,33 +59,34 @@ $(document).ready(() => {
             for (let coinKey in this.coins) {
                 this.coins[coinKey] = 0;
             }
-            payment.sum = 0;
+            this.sum = 0;
         },
         addCoin : function (coinKey) {
             return function () {
-                if (!user.coins[coinKey]) return;
+                if (!user.coins[coinKey] || !selectedItem) return;
                 
+                console.log("addCoin func");
                 payment.sum += coins[coinKey];
-                
+                console.log("Payment sum:", payment.sum);
+                console.log("Item price:", selectedItem.dataset.price);
                 user.coins[coinKey]--;
+                $(this).find("p").text(user.coins[coinKey]);
+                if (!user.coins[coinKey]) $(this).find(".coin").css("opacity", "0.6");
                 payment.coins[coinKey]++;
-                console.log("Price:", selectedItem.dataset.price);
-                console.log("SUm:", payment.sum);
                 if (payment.sum >= selectedItem.dataset.price) {
+                    console.log("Sum > price");
                     user.buy(selectedItem, payment.coins);
-                    selectedItem = {};
+                    selectedItem = null;
                     payment.reset();
-                    $(".payment-modal").hide();
-                    console.log(user.coins);
+                    console.log("Sum after buying:", payment.sum);
+                    setTimeout(() => $(".payment-modal").hide(), 2000);
+                    //$(".payment-modal").hide();
                     return;
                 }
-                console.table(payment.coins);
-                payment.stackCoins(coinKey);    
+                //payment.stackCoins(coinKey);    
             };
         },
         stackCoins : function (coinKey) {
-            //$("<div id='pay'></div>").appendTo(".payment-modal");
-            //$(".payment-modal > #pay").text(this.sum);
             return;
         }
     };
@@ -134,11 +94,9 @@ $(document).ready(() => {
     user.init(coins);
     payment.reset();
 
-    console.log("User: ");
-    console.table(user);
     $(".vending-machine .item").click(function () {
         selectedItem = this;
-        //user.buy(this, {"PENNY" : 0, "NICEL" : 0 ,"DIME" : 0, "QUARTER" : 0, "ONE" : 0, "FIVE" : 0,"TEN" : 0,"TWENTY" : 0, "ONE HUNDRED" : 1});
+        console.log("Setted item:", selectedItem);    
     });
     // complete ! 
     $(".vending-machine .pay-receiver").click(function () {
